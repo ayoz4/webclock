@@ -7,6 +7,11 @@
     border: 1px solid #b9bbc2;
     padding: 0.75rem;
     background-color: #ffffff;
+
+    &_disabled {
+      pointer-events: none;
+      background: #b9bbc2d7;
+    }
   }
 
   &__list {

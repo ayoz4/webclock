@@ -18,10 +18,10 @@ function App() {
   });
 
   useEffect(() => {
-    const fecthTimezones = async () => {
+    const fecthTimezones = () => {
       // only to show loader a bit longer
       let promise = new Promise((resolve, reject) => {
-        setTimeout(() => resolve("Ready!"), 1500);
+        setTimeout(() => resolve("Ready!"), 3000);
       });
 
       setTimezonesStatus({
@@ -50,18 +50,16 @@ function App() {
     };
 
     fecthTimezones();
-  }, [dispatch]);
+  }, []);
 
   return (
     <>
       {timezonesStatus.isFetching && <Loader />}
 
-      {timezonesStatus.isFetched && (
-        <div className="grid">
-          <Clock />
-          <Clock />
-        </div>
-      )}
+      <div className="grid">
+        <Clock />
+        <Clock />
+      </div>
 
       {timezonesStatus.error && <Error />}
     </>

@@ -1,10 +1,13 @@
 .loader {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   align-items: center;
   width: max-content;
-  height: 100vh;
-  margin: 0 auto;
+  background: transparent;
 
   &__list {
     display: flex;

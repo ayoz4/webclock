@@ -8,17 +8,9 @@ function Clock() {
   const clockRef = useRef(null);
   const timezones = useSelector((state) => state.timezones);
 
-  // Setting the local machine region
-  /* const [timezone, setTimezone] = useState(
-    timezones.filter(
-      (value) =>
-        Number.parseFloat(value.timezone) ===
-        new Date().getTimezoneOffset() / -60
-    )[0]
-  ); */
-
-  // Setting the first timezone from the json file
-  const [timezone, setTimezone] = useState(timezones[0]);
+  const [timezone, setTimezone] = useState({
+    timezone: new Date().getTimezoneOffset() / -60,
+  });
   const [analogClock, setAnalogClock] = useState();
 
   const setClock = () => {
@@ -52,7 +44,17 @@ function Clock() {
       hours -= 24;
     }
 
-    setAnalogClock(`${hours}:${date.getUTCMinutes()}:${date.getUTCSeconds()}`);
+    setAnalogClock(
+      `${convertTime(hours)}:${convertTime(date.getUTCMinutes())}:${convertTime(
+        date.getUTCSeconds()
+      )}`
+    );
+  };
+
+  const convertTime = (value) => {
+    if (!value && value !== 0) return;
+
+    return value.toString().length < 2 ? `0${value}` : value;
   };
 
   useEffect(() => {
@@ -63,6 +65,12 @@ function Clock() {
 
     return () => clearInterval(timer);
   });
+
+  useEffect(() => {
+    if (Array.isArray(timezones) && timezones.length !== 0) {
+      setTimezone(timezones[0]);
+    }
+  }, [timezones]);
 
   return (
     <div className="clockCard">
@@ -87,13 +95,14 @@ function Clock() {
         <div className="clock__number clock__number12"></div>
       </div>
 
-      <div className="analog">{analogClock}</div>
+      <div className="clockCard__digital">{analogClock}</div>
 
       <Select
         options={timezones}
         setSelected={setTimezone}
         selected={timezone}
         value="timezone"
+        disabled={timezones.length === 0}
       />
     </div>
   );

@@ -1,6 +1,7 @@
 import React from "react";
-import { useOutsideDetecter } from "../../common/hooks/useOutsideDetecter";
+import classnames from "classnames";
 
+import { useOutsideDetecter } from "../../common/hooks/useOutsideDetecter";
 import "./Select.scss";
 
 function Select({
@@ -9,13 +10,16 @@ function Select({
   selected,
   name = "name",
   value = "value",
+  disabled = false,
 }) {
   const { visible, setVisible, ref } = useOutsideDetecter(false);
 
   return (
     <div className="dropdown" ref={ref}>
       <div
-        className="dropdown__select"
+        className={classnames("dropdown__select", {
+          dropdown__select_disabled: disabled,
+        })}
         onClick={() => setVisible(!visible)}
         tabIndex="1"
         style={{ borderColor: visible && "#006ee6" }}
